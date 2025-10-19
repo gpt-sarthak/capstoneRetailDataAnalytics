@@ -1,8 +1,8 @@
 # connections/s3_connector.py (Adding local download function)
 
 from pyspark.sql import SparkSession, DataFrame
-from .secrets_manager import get_secret 
-from ..config import S3_SECRET_NAME # Used to fetch keys for Boto3
+from secrets_manager import get_secret 
+from config import S3_SECRET_NAME # Used to fetch keys for Boto3
 import boto3
 import os
 

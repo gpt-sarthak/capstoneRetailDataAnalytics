@@ -21,7 +21,6 @@ ANALYSIS_DATA_PATH = f"s3://{S3_BUCKET_NAME}/analysis/final_metrics/"
 
 # Path to store the final forecast results
 FORECAST_OUTPUT_PATH = f"s3://{S3_BUCKET_NAME}/forecasts/next_month_sales/"
- 
 
 # --- Data Processing Settings ---
 # Input file format and options

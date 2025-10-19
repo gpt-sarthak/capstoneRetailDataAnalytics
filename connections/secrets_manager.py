@@ -4,7 +4,8 @@ import boto3
 import json
 from botocore.exceptions import ClientError
 # We rely on the project's root configuration for the AWS region
-from ..config import AWS_REGION 
+from .aws_config import AWS_REGION
+
 
 def get_secret(secret_name: str) -> dict:
     """
@@ -53,10 +54,9 @@ if __name__ == "__main__":
     try:
         # Ensure your local environment has permission to read this secret (via AWS CLI config or Role)
         creds = get_secret(TEST_SECRET_NAME)
-        
         print(f"Successfully retrieved secret '{TEST_SECRET_NAME}'.")
-        print(f"Access Key ID: {creds['access_key'][:4]}...{creds['access_key'][-4:]}")
-        print(f"Secret Key: {creds['secret_key'][:4]}...{creds['secret_key'][-4:]} (Key shown truncated for security)")
+        print(f"Access Key ID: {creds['access_key_s3'][:4]}...{creds['access_key_s3'][-4:]}")
+        print(f"Secret Key: {creds['secret_key_s3'][:4]}...{creds['secret_key_s3'][-4:]} (Key shown truncated for security)")
         
     except Exception as e:
         print(f"TEST FAILED: Please verify that: \n1. Your local AWS CLI credentials are set up. \n2. Your IAM user has 'secretsmanager:GetSecretValue' permissions on the secret. \n3. The secret name '{TEST_SECRET_NAME}' and region '{AWS_REGION}' are correct in config.py.")
