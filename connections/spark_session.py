@@ -1,12 +1,29 @@
-from pyspark.sql import SparkSession
+# connections/spark_session.py (Revised - Cleaner Executor Environment)
 
-def get_spark_session(app_name="CapstoneRetailDataAnalytics"):
+from pyspark.sql import SparkSession
+# Removed dependency on Secrets Manager and S3_SECRET_NAME here
+
+# Define necessary external packages (keep this, as it may be needed for other tasks, e.g., Hadoop utilities)
+S3_PACKAGES = "org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk:1.12.569"
+
+def get_spark_session(app_name: str = "SalesForecastingPipeline") -> SparkSession:
+    """
+    Creates a basic, unconfigured SparkSession, minimizing Executor overhead.
+    Credentials for S3 are now managed by the Driver process.
+    """
+    
+    # 1. Build the Spark Session
     spark = (
-        SparkSession.builder.appName(app_name)
-        .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4") 
-        # Add configurations for S3 access, e.g.,
-        # .config("spark.hadoop.fs.s3a.access.key", "YOUR_ACCESS_KEY")
-        # .config("spark.hadoop.fs.s3a.secret.key", "YOUR_SECRET_KEY")
+        SparkSession.builder
+        .appName(app_name)
+        .config("spark.jars.packages", S3_PACKAGES)
+        # REMOVED: spark.hadoop.fs.s3a.access.key configuration
+        # REMOVED: spark.hadoop.fs.s3a.secret.key configuration
         .getOrCreate()
     )
+    
+    spark.sparkContext.setLogLevel("WARN")
+    print("SparkSession created. S3 credentials are NOT set at the Executor level.")
     return spark
+
+# Note: The main block for testing the session creation remains the same.
