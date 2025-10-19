@@ -8,10 +8,10 @@ AWS_REGION = "us-east-1"
 
 # --- S3 Data Paths and Names ---
 # Name of the primary S3 bucket for the project
-S3_BUCKET_NAME = "your-capstone-project-bucket"
+S3_BUCKET_NAME = "capstone-raw-data/"
 
 # Path to the raw, unprocessed input data
-RAW_DATA_PATH = f"s3://{S3_BUCKET_NAME}/sales_data/raw_sales.csv" 
+RAW_DATA_PATH = f"s3 ://{S3_BUCKET_NAME}/sales_data/denormalized_brazilian_dataset.csv" 
 
 # Path for intermediate/cleaned data (e.g., Parquet for fast reading)
 CLEANED_DATA_PATH = f"s3://{S3_BUCKET_NAME}/processed/cleaned_sales_data/"
@@ -21,7 +21,7 @@ ANALYSIS_DATA_PATH = f"s3://{S3_BUCKET_NAME}/analysis/final_metrics/"
 
 # Path to store the final forecast results
 FORECAST_OUTPUT_PATH = f"s3://{S3_BUCKET_NAME}/forecasts/next_month_sales/"
-
+ 
 
 # --- Data Processing Settings ---
 # Input file format and options

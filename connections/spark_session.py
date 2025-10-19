@@ -23,7 +23,7 @@ def get_spark_session(app_name: str = "SalesForecastingPipeline") -> SparkSessio
     )
     
     spark.sparkContext.setLogLevel("WARN")
-    print("SparkSession created. S3 credentials are NOT set at the Executor level.")
+    print("SparkSession created")
     return spark
 
 # Note: The main block for testing the session creation remains the same.

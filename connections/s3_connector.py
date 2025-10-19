@@ -83,3 +83,4 @@ def write_data_to_s3(
 ) -> None:
     # ... (body of this function remains as provided in previous turn)
     # ...
+    print(1)
