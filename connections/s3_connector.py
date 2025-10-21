@@ -1,8 +1,9 @@
 # connections/s3_connector.py (Adding local download function)
 
 from pyspark.sql import SparkSession, DataFrame
-from secrets_manager import get_secret 
-from config import S3_SECRET_NAME # Used to fetch keys for Boto3
+from .secrets_manager import get_secret 
+from .aws_config import AWS_REGION,S3_SECRET_NAME
+# from config import S3_SECRET_NAME # Used to fetch keys for Boto3
 import boto3
 import os
 
@@ -45,20 +46,21 @@ def download_file_from_s3(s3_uri: str, local_path: str) -> None:
     try:
         # 1. Fetch credentials from Secrets Manager
         s3_creds = get_secret(S3_SECRET_NAME)
-        access_key = s3_creds["access_key"]
-        secret_key = s3_creds["secret_key"]
+        access_key = s3_creds["access_key_s3"] # FIXED KEY NAMES
+        secret_key = s3_creds["secret_key_s3"] # FIXED KEY NAMES
         
-        # 2. Parse S3 URI
-        # Split s3://bucket-name/key/path/file.ext
-        bucket_name = s3_uri.split('/')[2]
-        s3_key = '/'.join(s3_uri.split('/')[3:])
+        # 2. Robustly parse S3 URI: s3://bucket-name/key/path/file.ext
+        uri_parts = s3_uri.replace("s3://", "").split('/', 1)
+        bucket_name = uri_parts[0]
+        s3_key = uri_parts[1]
         
-        # 3. Create Boto3 client
+        # 3. Create Boto3 client (using AWS_REGION from aws_config.py via the import chain)
         session = boto3.Session(
             aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key
+            aws_secret_access_key=secret_key,
+            region_name=AWS_REGION # Added region for client
         )
-        s3_client = session.client('s3')
+        s3_client = session.client('s3', region_name=AWS_REGION)
         
         # 4. Ensure local directory exists
         os.makedirs(os.path.dirname(local_path), exist_ok=True)
