@@ -47,3 +47,6 @@ FORECAST_PERIODS = 1
 LOCAL_DATA_DIR = "local_cache/data" 
 # Full path to the local raw data file
 LOCAL_RAW_DATA_PATH = f"{LOCAL_DATA_DIR}/raw_sales.csv"
+
+# New path for storing the 9 separated dimensional tables locally
+LOCAL_PROCESSED_DATA_DIR = f"{LOCAL_DATA_DIR}/processed_tables"
