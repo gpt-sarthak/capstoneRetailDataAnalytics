@@ -4,7 +4,7 @@ from pyspark.sql import SparkSession, DataFrame
 from connections.spark_session import get_spark_session
 # Import the new download function
 from connections.s3_connector import read_data_from_s3, download_file_from_s3 
-from ...config import (
+from .. src_config import (
     RAW_DATA_PATH, 
     RAW_FILE_FORMAT, 
     RAW_FILE_OPTIONS, 
@@ -37,17 +37,8 @@ def ingest_raw_data(spark: SparkSession) -> DataFrame:
     # Spark understands the 'file:///' scheme (which it infers) for local files.
     print(f"Reading data from local path: {LOCAL_RAW_DATA_PATH}")
     
-    # Note: We must explicitly use 'file:///' for local paths in some environments.
-    spark_compatible_path = f"file:///{LOCAL_RAW_DATA_PATH}" 
-    
     try:
-        raw_df = read_data_from_s3(
-            spark=spark, 
-            s3_path=spark_compatible_path, 
-            file_format=RAW_FILE_FORMAT, 
-            **RAW_FILE_OPTIONS
-        )
-        
+        raw_df = spark.read.format(RAW_FILE_FORMAT).options(**RAW_FILE_OPTIONS).load(LOCAL_RAW_DATA_PATH)    
         print(f"Ingestion complete. Total records: {raw_df.count()}")
         return raw_df
     

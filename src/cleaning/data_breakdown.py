@@ -8,7 +8,7 @@ import shutil
 
 # Import configurations and connector utilities
 from connections.s3_connector import write_data_to_s3
-from ..config import LOCAL_PROCESSED_DATA_DIR, OUTPUT_FILE_FORMAT, OUTPUT_FILE_OPTIONS
+from ..src_config import LOCAL_PROCESSED_DATA_DIR, OUTPUT_FILE_FORMAT, OUTPUT_FILE_OPTIONS
 
 # The 9 core tables derived from the column names:
 # Primary Key columns are listed first.
