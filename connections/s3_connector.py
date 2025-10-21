@@ -72,7 +72,6 @@ def download_file_from_s3(s3_uri: str, local_path: str) -> None:
         print(f"FATAL ERROR during S3 download: {e}")
         raise e
         
-# --- Existing write_data_to_s3 function goes here (modified slightly for clarity) ---
 
 def write_data_to_s3(
     df: DataFrame, 
@@ -81,6 +80,5 @@ def write_data_to_s3(
     mode: str = "overwrite", 
     **options
 ) -> None:
-    # ... (body of this function remains as provided in previous turn)
-    # ...
+
     print(1)
